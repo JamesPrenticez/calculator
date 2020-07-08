@@ -66,6 +66,7 @@
   font-size: 40px;
   line-height: 35px;
   vertical-align: top;
+  overflow: hidden;
 } /* #screen */
 
 .operand {
@@ -76,23 +77,23 @@
   display: none;
 } /* .operand */
 
-#sPlus {
+#plus {
   top: -5px;
 } /* #sPlus */
 
-#sMinus {
+#minus {
   top: 4px;
 } /* #sMinus */
 
-#sMultiply {
+#multiply {
   top: 13px;
 } /* #sMultiply */
 
-#sDivide {
+#divide {
   top: 23px;
 } /* #sDivide */
 
-#sPercent {
+#percent {
   top: -5px;
   left: 15px;
 } /* #sPercent */
