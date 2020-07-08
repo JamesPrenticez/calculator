@@ -63,24 +63,13 @@
 	</nav>
   
   <div class="container pt-5 pb-5">
-    <!-- 
-      HTML Calculator Pseudocode
-      
-      div with container
-      screen with readout
-      row of buttons:
-        AC CE % /
-        7 8 9 x
-        4 5 6 -
-        1 2 3 +
-        0 . = +
 
-			 -->
-    <div id="calculator">
+		<div id="calculator">
       <div id="branding">
         <img src="https://anthony-kyle.github.io/images/PilcrowMicroLogo.png">
         <p>PilcrowMicro</p>
-      </div><!-- #branding -->
+			</div><!-- #branding -->
+			
       <div id="screen">
 				<div id="numbers">0</div>
 				<div id="sPlus" class="operand">&plus;</div>
@@ -91,51 +80,48 @@
 			</div><!-- #screen -->
       
       <div class="calc-row">
-        <button class="key clear">AC</button>
-        <button class="key clear">CE</button>
-        <button class="key">&percnt;</button>
-        <button class="key">&divide;</button>
-      </div>
+        <button id="ac" class="key clear">AC</button>
+        <button id="ce" class="key clear">CE</button>
+        <button id="percent" class="key">&percnt;</button>
+        <button id="divide" class="key">&divide;</button>
+			</div><!-- .calc-row -->
+	
       <div class="calc-row">
-        <button class="key">7</button>
-        <button class="key">8</button>
-        <button class="key">9</button>
-        <button class="key">&times;</button>
-      </div>
+        <button id="7" 				class="key">7</button>
+        <button id="8" 				class="key">8</button>
+        <button id="9" 				class="key">9</button>
+        <button id="multiply" class="key">&times;</button>
+			</div><!-- .calc-row -->
+			
       <div class="calc-row">
-        <button class="key">4</button>
-        <button class="key">5</button>
-        <button class="key">6</button>
-        <button class="key">&minus;</button>
-      </div>
+        <button id="4" 				class="key">4</button>
+        <button id="5" 				class="key">5</button>
+        <button id="6" 				class="key">6</button>
+        <button id="minus" 		class="key">&minus;</button>
+			</div><!-- .calc-row -->
+			
       <div class="calc-row">
-        <button class="key">1</button>
-        <button class="key">2</button>
-        <button class="key">3</button>
-        <button class="key tall">&plus;</button>
-      </div>
+        <button id="1" 				class="key">1</button>
+        <button id="2" 				class="key">2</button>
+        <button id="3" 				class="key">3</button>
+        <button id="4" 				class="key tall">&plus;</button>
+			</div><!-- .calc-row -->
+			
       <div class="calc-row">
-        <button class="key">0</button>
-        <button class="key">.</button>
-        <button class="key">&equals;</button>
-      </div>
+        <button id="0" 				class="key">0</button>
+        <button id="period" 	class="key">.</button>
+        <button id="equals" 	class="key">&equals;</button>
+			</div><!-- .calc-row -->
+			
     </div><!-- #calculator -->
 
-  </div><!-- #container -->
-  
-		
+	</div><!-- #container -->
+			
 	<footer>
 		<p>
 			PilcrowMicro, Logo, Web design and Content &copy; Anthony McGrath 2020
 		</p>
 	</footer>
-
-	<div id="to-top">
-		<a href="#top">
-			<img src="images/caret.png" alt="To Top">
-			<span class="tooltip">Jump to Top</span>
-		</a>
-	</div><!-- #to-top -->
 
 	<script src="" async defer></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
