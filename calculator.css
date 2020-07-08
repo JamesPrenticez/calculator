@@ -1,18 +1,27 @@
 /*******************************************************
-/*  calculator.css
-/*  purpose: to style a simple calculator
-/*  author: Anthony McGrath (akm@anthonykyle.co.nz)
-/******************************************************/
+ *  calculator.css
+ *  purpose: to style a simple calculator
+ *  author: Anthony McGrath (akm@anthonykyle.co.nz)
+ ******************************************************/
 
-:root{
+/****************************************************
+ * Global Variables
+ ***************************************************/
+
+ :root{
   --calculator: beige;
   --calc-shape: rgb(175, 175, 147);
+  --key-color: rgb(206, 206, 197);
+  --key-clear: rgb(150,40,40);
   --shadow: rgb(45,45,45);
+} /* :root */
 
-}
+/****************************************************
+ * Calculator Body
+ ***************************************************/
 
-
-#calculator {
+ #calculator {
+  margin: 0px auto;
   width: 265px;
   background-color: var(--calculator);
   padding: 20px;
@@ -23,23 +32,28 @@
   box-shadow: inset 5px 0 10px -5px var(--calc-shape),
               inset -5px 0 10px -5px var(--calc-shape),
               inset 0px -5px 10px -2px var(--calc-shape),
-                    0 10px 20px 0 var(--shadow);
-                  
-}
+                    0 10px 20px 0 var(--shadow);     
+} /* #calculator */
 
 #branding {
  display: block;
  font-family: 'Great Vibes', cursive;;
+ font-size: 1.2em;
  text-align: center;
-}
+} /* #branding */
 
 #branding img {
   height: 20px;
   width: auto;
-}
+} /* #branding img */
+
+/****************************************************
+ * Screen Formatting
+ ***************************************************/
 
 #screen {
   display: block;
+  position: relative;
   width: 215px;
   height: 50px;
   background-color: rgb(196, 196, 184);
@@ -49,15 +63,51 @@
   text-align: right;
   padding: 10px;
   font-family: VT323, monospace;
-  font-size: 50px;
-}
+  font-size: 40px;
+  line-height: 35px;
+  vertical-align: top;
+} /* #screen */
+
+.operand {
+  position: absolute;
+  font-size: 20px;
+  left: 5px;
+  top: 0px;
+  display: none;
+} /* .operand */
+
+#sPlus {
+  top: -5px;
+} /* #sPlus */
+
+#sMinus {
+  top: 4px;
+} /* #sMinus */
+
+#sMultiply {
+  top: 13px;
+} /* #sMultiply */
+
+#sDivide {
+  top: 23px;
+} /* #sDivide */
+
+#sPercent {
+  top: -5px;
+  left: 15px;
+} /* #sPercent */
+
+/****************************************************
+ * Calculator Keys
+ ***************************************************/
 
 .calc-row {
   height: 55px;
   white-space: nowrap;
-}
+} /* .calc-row */
 
 .key {
+  background-color: var(--key-color);
   position: relative;
   display: inline-block;
   width: 50px;
@@ -65,21 +115,26 @@
   margin: 0px -4px 0px 5px;
   vertical-align: top;
   border-radius: 5px;
-}
+  font-weight: bold;
+} /* .key */
+
+.clear {
+  background-color: var(--key-clear);
+  color: white;
+} /* .clear */
 
 .tall {
   height: 105px;
-}
+} /* .tall */
 
 .key:hover{
   left: -1px;
   top: -1px;
   box-shadow: 1px 1px 2px var(--shadow);
-}
+} /* .key:hover */
 
 .key:active{
   left: 0px;
   top: 0px;
   box-shadow: inset 1px 1px 2px var(--shadow);
-
-}
+} /* .key:active */
