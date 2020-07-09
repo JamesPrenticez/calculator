@@ -86,12 +86,15 @@ function interpretEntry(key){
 /*********************************************************
  * User Input Function Calls
  *********************************************************/
+
+// Add Users input to entries array
 function addEntry(int){
   pct = false;
   entries.push(int);
   updateScreen(convertEntries(entries));
 } // addEntry(int)
 
+// Select mathematical operand to 
 function addOperand(key){
   let newOperand = key
   switch(newOperand){
@@ -116,22 +119,28 @@ function addOperand(key){
 } // addOperand(key)
 
 function calcPercent(){
-  let percent = (convertEntries(entries) / 100);
-  
-  switch (operand){
+  let percent = BigNumber((convertEntries(entries) / 100));
+  let base = BigNumber(temp);
+  let one = BigNumber(1);
+  let globalOperand = operand;
+  let localOperand = "*";
+  if (temp == 0){
+    base = BigNumber(1);
+    globalOperand = localOperand;
+  }   
+  switch (globalOperand){
     case "+":
-      percent += 1;
-      temp = (temp * percent);
+      percent = percent.plus(one);
       break;
     case "-":
-      percent = 1 - percent;
-      temp = (temp * percent);
+      percent = one.minus(percent);
       break;
-    case "*":
     case "/":
-      temp = eval(temp + operand + percent);
+      oper = "/";
+      localOperand = globalOperand;
       break;
   }
+  temp = doMaths(base, percent, localOperand);
   updateScreen(temp);
   prevEntry = [];
   prevEntry.push(percent);
@@ -155,26 +164,45 @@ function clearEntry(){
 } // clearEvent()
 
 function calculate(bool){
+  let base = BigNumber(temp);
+  let modifier = BigNumber(convertEntries(entries));
   if (entries.length > 0){
     prevEntry = entries;
-    temp = eval(temp + operand + convertEntries(entries));
+    temp = doMaths(base, modifier, operand);
   } else {
     if (prevEntry.length > 0 && bool == true){
+      modifier = BigNumber(convertEntries(prevEntry));
       if (pct == false){
-        temp = eval(temp + operand + convertEntries(prevEntry));
+        temp = doMaths(base, modifier, operand);
       } else {
-        temp = eval(temp * prevEntry);
+        temp = doMaths(base, modifier, "*");
       }
     } else if (prevEntry.length > 0 && bool == false){
       entries.push(temp);
     } else {
-      temp = eval(temp + operand + "0");
+      temp = doMaths(base, BigNumber(0), "+");
     }
   }
-
   entries = [];
   updateScreen(temp);
 } // calculate(bool)
+
+function doMaths(base, modifier, oper){
+  switch(oper){
+    case "+":
+      return base.plus(modifier).toNumber();
+      break;
+    case "-":
+      return base.minus(modifier).toNumber();
+      break;
+    case "*":
+      return base.multipliedBy(modifier).toNumber();
+      break;
+    case "/":
+      return base.dividedBy(modifier).toNumber();
+      break;
+  }
+} // doMaths(base, modifier, oper)
 
 function removeLastEntry(){
   if (entries.length > 0){
