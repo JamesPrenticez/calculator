@@ -66,8 +66,15 @@
   font-size: 40px;
   line-height: 35px;
   vertical-align: top;
-  overflow: hidden;
 } /* #screen */
+
+#numbers {
+  overflow-wrap: anywhere;
+}
+#numbers.splitLine {
+  font-size: 20px;
+  line-height: 20px;
+}
 
 .operand {
   position: absolute;

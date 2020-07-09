@@ -17,8 +17,10 @@
 document.addEventListener('DOMContentLoaded', addListeners);
 
 var entries = []; // Array for storing entered numbers
+var prevEntry = []; // Array for storing previous number
 var temp = 0;     // Temporary location for storing processed numbers
-var operand = "";
+var operand = "+";
+var pct = false;
 
 function addListeners(){
   let keys = document.getElementsByClassName('key');
@@ -30,6 +32,7 @@ function addListeners(){
 
 function processClick(evt){
   interpretEntry(evt.target.id);
+  evt.target.blur();
 } // processClick(evt)
 
 function processKeypress(evt){
@@ -37,7 +40,6 @@ function processKeypress(evt){
 } // processKeypress(evt)
 
 function interpretEntry(key){
-  console.log(key);
   switch (key){
     case "0":
     case "1":
@@ -49,7 +51,7 @@ function interpretEntry(key){
     case "7":
     case "8":
     case "9":
-      addEntry(parseInt(key));
+      addEntry(parseFloat(key));
       break;
     case ".":
       if (entries.includes(".")){
@@ -71,40 +73,52 @@ function interpretEntry(key){
       allClear();
       break;
     case "ce":
-      clearEvent();
+      clearEntry();
       break;    
     case "Enter":
-      calculate();
+      calculate(true);
+      break;
+    case "Backspace":
+      removeLastEntry();
       break;
   };
 } // interpretEntry(key)
 
-function updateScreen(bool){
-  let screen = document.getElementById('numbers');
+function removeLastEntry(){
+  if (entries.length > 0){
+    entries.pop();
+    updateScreen(convertEntries(entries));
+  }
+} // removeLastEntry()
 
-  if (bool === true){
-    screen.textContent = entries.join("");
+function updateScreen(val){
+  let numbers = document.getElementById('numbers');
+  if (val.toString().length > 12){
+    numbers.classList.add('splitLine');
   } else {
-    screen.textContent = "--MEM.ERR--";
-  }  
+    numbers.classList.remove('splitLine');
+  }
+  numbers.textContent = val;
+  
 } // updateScreen(bool)
 
-function addEntry(int){
-  if (entries.length < 12){
-    entries.push(int);
-    updateScreen(true);
+function convertEntries(arr){
+  if (arr.length > 0){
+    return parseFloat(arr.join(""));
   } else {
-    updateScreen(false);
+    return 0;
   }
+}
+
+function addEntry(int){
+  pct = false;
+  entries.push(int);
+  updateScreen(convertEntries(entries));
 } // addEntry(int)
 
 function addOperand(key){
-  if (entries.length > 1){
-    temp = parseFloat(entries.join(""));
-    entries = [];
-  }  
-  operand = key;
-  switch(operand){
+  let newOperand = key
+  switch(newOperand){
     case "+":
       toggleOperandDisplay("plus");
       break;
@@ -117,34 +131,81 @@ function addOperand(key){
     case "/":
       toggleOperandDisplay("divide");
       break;
+    default:
+      toggleOperandDisplay("");
+      break;
   };
+  calculate(false);
+  operand = newOperand;
 } // addOperand(key)
 
-function toggleOperandDisplay(operand){
+function toggleOperandDisplay(oper){
   let opClass = document.getElementsByClassName("operand");
   for (let i = 0; i < opClass.length; i++){
-    if (opClass[i].id == operand){
+    if (opClass[i].id == oper){
       opClass[i].style.display = "block";
     } else {
       opClass[i].style.display = "none";
-    }
-    
+    } 
   }
-
 } // toggleOperandDisplay(operand)
 
-function calcPercent() {
-
+function calcPercent(){
+  let percent = (convertEntries(entries) / 100);
+  
+  switch (operand){
+    case "+":
+      percent += 1;
+      temp = (temp * percent);
+      break;
+    case "-":
+      percent = 1 - percent;
+      temp = (temp * percent);
+      break;
+    case "*":
+    case "/":
+      temp = eval(temp + operand + percent);
+      break;
+  }
+  updateScreen(temp);
+  prevEntry = [];
+  prevEntry.push(percent);
+  entries = [];
+  pct = true;
 } // calcPercent()
 
 function allClear(){
-
+  temp = 0;
+  operand = "+";
+  clearEntry();
+  updateScreen(temp);
+  toggleOperandDisplay("");
 } // allClear()
 
-function clearEvent(){
-
+function clearEntry(){
+  entries = [];
+  updateScreen(0);
+  pct = false;
+  prevEntry = [];
 } // clearEvent()
 
-function calculate(){
-
-} // calculate()
+function calculate(bool){
+  if (entries.length > 0){
+    prevEntry = entries;
+    temp = eval(temp + operand + convertEntries(entries));
+  } else {
+    if (prevEntry.length > 0 && bool == true){
+      if (pct == false){
+        temp = eval(temp + operand + convertEntries(prevEntry));
+      } else {
+        temp = eval(temp * prevEntry);
+      }     
+    } else if (prevEntry.length > 0 && bool == false){
+      entries.push(temp);
+    } else {
+      temp = eval(temp + operand + "0");
+    }
+  }
+  entries = [];
+  updateScreen(temp);
+} // calculate(bool)
