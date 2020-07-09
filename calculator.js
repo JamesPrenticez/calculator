@@ -1,26 +1,22 @@
-// functions:
-//       AC = clear entry + clear memory
-//       CE = clear entry
-//       % = calculate percentage
-//       / = divide
-//       x = multiply
-//       - = subtract
-//       + = add
-//       = = process
+/********************************************************** 
+ *  file:     calculator.js
+ *  purpose:  Basic Calculator Logic
+ *  author:   Anthony McGrath (akm@anthonykyle.co.nz)
+ ******************************************************** */
 
-//       When you click on a button, add to array of numbers which are readout on screen
-//       click a modifier save entries as number to temporary placeholder
-//       add next lot of numbers to array
-//       on clicking any other button, perform arithmatic between entered and stored numbers. 
-//       display result, add to temp
+/*********************************************************
+ * Define Global Variables
+ *********************************************************/
+var entries   = [];   // Array for storing entered numbers
+var prevEntry = [];   // Array for storing previous number
+var temp      = 0;    // Temporary location for storing processed numbers
+var operand   = "+";  // Operand Memory
+var pct       = false;// Toggle for identifying if last action was percent
 
+/*********************************************************
+ * Add Event Listeners
+ *********************************************************/
 document.addEventListener('DOMContentLoaded', addListeners);
-
-var entries = []; // Array for storing entered numbers
-var prevEntry = []; // Array for storing previous number
-var temp = 0;     // Temporary location for storing processed numbers
-var operand = "+";
-var pct = false;
 
 function addListeners(){
   let keys = document.getElementsByClassName('key');
@@ -30,6 +26,9 @@ function addListeners(){
   document.addEventListener('keydown', processKeypress);
 } // addListeners()
 
+/*********************************************************
+ * Handle User Input
+ *********************************************************/
 function processClick(evt){
   interpretEntry(evt.target.id);
   evt.target.blur();
@@ -84,32 +83,9 @@ function interpretEntry(key){
   };
 } // interpretEntry(key)
 
-function removeLastEntry(){
-  if (entries.length > 0){
-    entries.pop();
-    updateScreen(convertEntries(entries));
-  }
-} // removeLastEntry()
-
-function updateScreen(val){
-  let numbers = document.getElementById('numbers');
-  if (val.toString().length > 12){
-    numbers.classList.add('splitLine');
-  } else {
-    numbers.classList.remove('splitLine');
-  }
-  numbers.textContent = val;
-  
-} // updateScreen(bool)
-
-function convertEntries(arr){
-  if (arr.length > 0){
-    return parseFloat(arr.join(""));
-  } else {
-    return 0;
-  }
-}
-
+/*********************************************************
+ * User Input Function Calls
+ *********************************************************/
 function addEntry(int){
   pct = false;
   entries.push(int);
@@ -138,17 +114,6 @@ function addOperand(key){
   calculate(false);
   operand = newOperand;
 } // addOperand(key)
-
-function toggleOperandDisplay(oper){
-  let opClass = document.getElementsByClassName("operand");
-  for (let i = 0; i < opClass.length; i++){
-    if (opClass[i].id == oper){
-      opClass[i].style.display = "block";
-    } else {
-      opClass[i].style.display = "none";
-    } 
-  }
-} // toggleOperandDisplay(operand)
 
 function calcPercent(){
   let percent = (convertEntries(entries) / 100);
@@ -199,13 +164,57 @@ function calculate(bool){
         temp = eval(temp + operand + convertEntries(prevEntry));
       } else {
         temp = eval(temp * prevEntry);
-      }     
+      }
     } else if (prevEntry.length > 0 && bool == false){
       entries.push(temp);
     } else {
       temp = eval(temp + operand + "0");
     }
   }
+
   entries = [];
   updateScreen(temp);
 } // calculate(bool)
+
+function removeLastEntry(){
+  if (entries.length > 0){
+    entries.pop();
+    updateScreen(convertEntries(entries));
+  } // if
+} // removeLastEntry()
+
+/*********************************************************
+ * Display Functions
+ *********************************************************/
+function updateScreen(val){
+  let numbers = document.getElementById('numbers');
+  if (val.toString().length > 12){
+    numbers.classList.add('splitLine');
+  } else {
+    numbers.classList.remove('splitLine');
+  }
+  numbers.textContent = val;
+} // updateScreen(val)
+
+function convertEntries(arr){
+  if (arr.length > 0){
+    return parseFloat(arr.join(""));
+  } else {
+    return 0;
+  }
+} // convertEntries(arr)
+
+function toggleOperandDisplay(oper){
+  let opClass = document.getElementsByClassName("operand");
+  for (let i = 0; i < opClass.length; i++){
+    if (opClass[i].id == oper){
+      opClass[i].style.display = "block";
+    } else {
+      opClass[i].style.display = "none";
+    } 
+  }
+} // toggleOperandDisplay(operand)
+
+
+
+
