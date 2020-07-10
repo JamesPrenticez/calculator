@@ -216,7 +216,7 @@ function removeLastEntry(){
  *********************************************************/
 function updateScreen(val){
   let numbers = document.getElementById('numbers');
-  if (val.toString().length > 12){
+  if (val.toString().length > 10){
     numbers.classList.add('splitLine');
   } else {
     numbers.classList.remove('splitLine');
